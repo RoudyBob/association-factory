@@ -19,4 +19,17 @@ router.post("/create", validateSession, function (req, res) {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+router.get("/get", validateSession, function (req, res) {
+
+  const query = {
+    where: {userId: req.user.id},
+    include: "user"
+  };
+
+  Baby.findAll(query)
+    .then((babies) => res.status(200).json(babies))
+    .catch((err) => res.status(500).json({ error: err }))
+
+});
+
 module.exports = router;
